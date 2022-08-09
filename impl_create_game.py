@@ -14,9 +14,22 @@ class KArmBanditGame:
         return reward
 
 
+class KArmBanditGameNonStationary:
+    def __init__(self, k=10):
+        self.k = k
+        self.g_star_values = np.zeros(self.k)
+
+    def step(self, action):
+        increment = np.random.normal(np.zeros(self.k), 0.01 * np.ones(self.k))
+        self.g_star_values += increment
+        reward = np.random.normal(self.g_star_values[action], 1, 1)[0]
+        return reward
+
+
 def main():
     K = 10
-    game = KArmBanditGame(K)
+    # game = KArmBanditGame(K)
+    game = KArmBanditGameNonStationary(K)
     reward = game.step(2)
     print(reward)
 
